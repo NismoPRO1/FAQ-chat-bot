@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamid GPT - Batman Study Bot</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #output {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hamid GPT - Batman Study Chat Bot</h1>
+        <label for="query">Enter your query:</label>
+        <input type="text" id="query" placeholder="Type your query here..." />
+        <button id="searchButton" onclick="search()">Search</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        async function search() {
+            const query = document.getElementById('query').value;
+            const output = document.getElementById('output');
+
+            // Clear the previous output
+            output.innerHTML = "";
+
+            // Make a request to the backend API
+            const response = await fetch('/api/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query })
+            });
+
+            const data = await response.json();
+
+            // Display the chatbot response
+            output.innerHTML = `<p>${data.response}</p>`;
+        }
+    </script>
+</body>
+</html>
