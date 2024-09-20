@@ -39,3 +39,4 @@ class handler(BaseHTTPRequestHandler):
 
         # Respond with the search results
         self.wfile.write(json.dumps({'response': response}).encode('utf-8'))
+
