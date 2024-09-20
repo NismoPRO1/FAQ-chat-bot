@@ -3,84 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamid GPT - Batman Study Bot</title>
+    <title>FAQ Search Bot</title>
     <style>
         body {
-            background-color: #222;
-            color: #fff;
             font-family: Arial, sans-serif;
+            background-color: #222222;
+            color: #ffffff;
+            text-align: center;
             padding: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        input {
-            width: 100%;
+        input, button {
+            font-size: 18px;
             padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
+            margin: 10px;
         }
-
+        input {
+            width: 60%;
+        }
         button {
-            padding: 10px 15px;
-            background-color: #444;
-            color: white;
+            background-color: #444444;
+            color: #ffffff;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
         }
-
         button:hover {
-            background-color: #555;
+            background-color: #555555;
         }
-
         #output {
-            margin-top: 20px;
             background-color: #f9f9f9;
-            color: #333;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 300px;
-            overflow-y: auto;
+            color: #333333;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hamid GPT - Batman Study Chat Bot</h1>
-        <label for="query">Enter your query:</label>
-        <input type="text" id="query" placeholder="Type your query here..." />
-        <button id="searchButton" onclick="search()">Search</button>
-        <div id="output"></div>
-    </div>
+    <h1>FAQ Search Bot</h1>
+    <p>Enter your query below and the FAQ Search Bot will search the web for you:</p>
+
+    <!-- Input field for user query -->
+    <input type="text" id="query" placeholder="Enter your search here..." />
+
+    <!-- Search button -->
+    <button onclick="search()">Search</button>
+
+    <!-- Output area to display search results -->
+    <div id="output"></div>
 
     <script>
         async function search() {
-            const query = document.getElementById('query').value;
-            const output = document.getElementById('output');
+            const query = document.getElementById('query').value; // Capture the user's input
+            const output = document.getElementById('output');     // Output area to display results
 
             // Clear the previous output
             output.innerHTML = "";
 
-            // Make a request to the backend API
+            // Check if the query is not empty
+            if (!query) {
+                output.innerHTML = "<p>Please enter a query!</p>";
+                return;
+            }
+
+            // Make a POST request to the Python backend (Vercel function)
             const response = await fetch('/api/chatbot', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ query })
+                body: JSON.stringify({ query })  // Send the query as JSON
             });
 
+            // Parse the JSON response from the backend
             const data = await response.json();
 
-            // Display the chatbot response
+            // Display the chatbot response in the output area
             output.innerHTML = `<p>${data.response}</p>`;
         }
     </script>
